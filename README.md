@@ -7,3 +7,9 @@ AtCoder用Rustスニペット
 ```
 cargo snippet -t vscode
 ```
+
+テスト
+
+```
+cargo test
+```

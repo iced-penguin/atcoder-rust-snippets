@@ -21,7 +21,7 @@ where T: std::str::FromStr + Default
 }
 
 #[snippet]
-pub fn join_to_string<T>(v: Vec<T>, sep: &str) -> String
+pub fn join_to_string<T>(v: &Vec<T>, sep: &str) -> String
 where T: std::string::ToString
 {
     v.iter()
@@ -33,11 +33,11 @@ where T: std::string::ToString
 #[test]
 fn test_join_to_string() {
     // 文字列
-    assert_eq!(join_to_string(vec!["a", "b", "c"], " "), "a b c");
+    assert_eq!(join_to_string(&vec!["a", "b", "c"], " "), "a b c");
     // 数値
-    assert_eq!(join_to_string(vec![0, 1, 2], "."), "0.1.2");
+    assert_eq!(join_to_string(&vec![0, 1, 2], "."), "0.1.2");
     // 空ベクタ
-    assert_eq!(join_to_string(Vec::<i32>::new(), ","), "");
+    assert_eq!(join_to_string(&Vec::<i32>::new(), ","), "");
     // 要素数1
-    assert_eq!(join_to_string(vec!["a"], " "), "a");
+    assert_eq!(join_to_string(&vec!["a"], " "), "a");
 }
