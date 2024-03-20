@@ -89,3 +89,37 @@ fn test_lcm() {
     // usize, 互いに素
     assert_eq!(lcm(17usize, 23usize), 17 * 23);
 }
+
+#[snippet]
+pub fn max<T>(a: T, b: T) -> T 
+where T: std::cmp::PartialOrd
+{
+    if a > b { a } else { b }
+}
+
+#[test]
+fn test_max() {
+    assert_eq!(max(5i32, 10i32), 10);
+    assert_eq!(max(10i32, 5i32), 10);
+    assert_eq!(max(5u32, 10u32), 10);
+    assert_eq!(max(5f32, 10f32), 10.0);
+    assert_eq!(max(5, -5), 5);
+    assert_eq!(max(5, 0), 5);
+}
+
+#[snippet]
+pub fn min<T>(a: T, b: T) -> T
+where T: std::cmp::PartialOrd
+{
+    if a < b { a } else { b }
+}
+
+#[test]
+fn test_min() {
+    assert_eq!(min(5i32, 10i32), 5);
+    assert_eq!(min(10i32, 5i32), 5);
+    assert_eq!(min(5u32, 10u32), 5);
+    assert_eq!(min(5f32, 10f32), 5.0);
+    assert_eq!(min(5, -5), -5);
+    assert_eq!(min(5, 0), 0);
+}
