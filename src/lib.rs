@@ -123,3 +123,24 @@ fn test_min() {
     assert_eq!(min(5, -5), -5);
     assert_eq!(min(5, 0), 0);
 }
+
+#[snippet]
+pub fn take2<T>(v: &Vec<T>) -> (T, T)
+where T: Copy
+{
+    (v[0], v[1])
+}
+
+#[snippet]
+pub fn take3<T>(v: &Vec<T>) -> (T, T, T)
+where T: Copy
+{
+    (v[0], v[1], v[2])
+}
+
+#[snippet]
+pub fn take4<T>(v: &Vec<T>) -> (T, T, T, T)
+where T: Copy
+{
+    (v[0], v[1], v[2], v[3])
+}
