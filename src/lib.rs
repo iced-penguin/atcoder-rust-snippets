@@ -143,6 +143,7 @@ pub fn take4<T>(v: &Vec<T>) -> (T, T, T, T)
 where T: Copy
 {
     (v[0], v[1], v[2], v[3])
+}
 
 #[snippet]
 /// baseを基数としてnの各桁の数の総和を求める
@@ -167,4 +168,22 @@ where T: num::Signed + Copy + PartialOrd
     }
     sum
 }
+
+#[test]
+fn test_sum_digits() {
+    // 10進数
+    assert_eq!(sum_digits(12345, 10), 15);
+    // 2進数
+    assert_eq!(sum_digits(12345, 2), 6);
+    // 0
+    assert_eq!(sum_digits(0, 10), 0);
+    // 負の数
+    assert_eq!(sum_digits(-123, 10), 6);
+}
+#[test]
+#[should_panic]
+fn test_sum_digits_panic() {
+    sum_digits(123, 1);
+    sum_digits(123, 0);
+    sum_digits(123, -1);
 }
