@@ -143,4 +143,28 @@ pub fn take4<T>(v: &Vec<T>) -> (T, T, T, T)
 where T: Copy
 {
     (v[0], v[1], v[2], v[3])
+
+#[snippet]
+/// baseを基数としてnの各桁の数の総和を求める
+pub fn sum_digits<T>(n: T, base: T) -> T
+where T: num::Signed + Copy + PartialOrd
+{
+    if base <= T::one() {
+        panic!("base must be at least two")
+    }
+
+    let zero = T::zero();
+    let mut num = if n > zero {
+        n
+    } else {
+        -n
+    };
+    let mut sum = zero.clone();
+
+    while num > zero {
+        sum = sum + (num % base);
+        num = num / base;
+    }
+    sum
+}
 }
