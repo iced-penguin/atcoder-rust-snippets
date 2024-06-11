@@ -56,6 +56,31 @@ where T: num::Signed + Copy + PartialOrd
     sum
 }
 
+#[snippet]
+/// 基数base、指数expの冪乗をmで割った余りを求める（繰り返し二乗法）
+pub fn pow_mod<T>(base: T, exp: T, m: T) -> T 
+where T: num::PrimInt
+{
+    // 負の基数と指数をサポートしない
+    if base < T::zero() {
+        panic!("base must not be negative")
+    }
+    if exp < T::zero() {
+        panic!("exp must not be negative")
+    }
+    let mut b = base % m;
+    let mut n = exp;
+    let mut pow = T::one();
+    while n > T::zero() {
+        if !(n & T::one()).is_zero() {
+            pow = (pow * b) % m;
+        }
+        b = (b * b) % m;
+        n = n >> 1;
+    }
+    pow
+}
+
 #[test]
 fn test_gcd() {
     // u8, a > b
@@ -126,4 +151,29 @@ fn test_sum_digits_panic() {
     sum_digits(123, 1);
     sum_digits(123, 0);
     sum_digits(123, -1);
+}
+
+#[test]
+fn test_pow_mod() {
+    // 基数が0
+    assert_eq!(pow_mod(0, 3, 5), 0);
+    // 基数が正
+    assert_eq!(pow_mod(2, 3, 5), 3);
+    // 指数が0
+    assert_eq!(pow_mod(2, 0, 5), 1);
+    // 指数が1
+    assert_eq!(pow_mod(2, 1, 5), 2);
+    // 基数が大きい
+    assert_eq!(pow_mod(1_000_000_000i64, 10i64, 1000000007i64), 282475249);
+    // 指数が大きい
+    assert_eq!(pow_mod(10i64, 1_000_000_000i64, 1000000007i64), 142857001i64);
+}
+
+#[test]
+#[should_panic]
+fn test_pow_mod_panic() {
+    // 基数が負
+    pow_mod(-2, 3, 5);
+    // 指数が負
+    pow_mod(2, -3, 5);
 }
