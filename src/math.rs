@@ -1,0 +1,129 @@
+use cargo_snippet::snippet;
+
+#[snippet]
+/// a, b の最大公約数を求める（Euclidの互除法）
+pub fn gcd<T>(a: T, b: T) -> T
+where T: num::Unsigned + Copy
+{
+    if b == T::zero() { a } else { gcd(b, a % b) }
+}
+
+#[snippet(include = "gcd")]
+/// a, b の最小公倍数を求める
+pub fn lcm<T>(a: T, b: T) -> T 
+where T: num::Unsigned + Copy
+{
+    a * b / gcd(a, b)
+}
+
+#[snippet]
+/// 最大値
+pub fn max<T>(a: T, b: T) -> T 
+where T: std::cmp::PartialOrd
+{
+    if a > b { a } else { b }
+}
+
+#[snippet]
+// 最小値
+pub fn min<T>(a: T, b: T) -> T
+where T: std::cmp::PartialOrd
+{
+    if a < b { a } else { b }
+}
+
+#[snippet]
+/// baseを基数としてnの各桁の数の総和を求める
+pub fn sum_digits<T>(n: T, base: T) -> T
+where T: num::Signed + Copy + PartialOrd
+{
+    if base <= T::one() {
+        panic!("base must be at least two")
+    }
+
+    let zero = T::zero();
+    let mut num = if n > zero {
+        n
+    } else {
+        -n
+    };
+    let mut sum = zero.clone();
+
+    while num > zero {
+        sum = sum + (num % base);
+        num = num / base;
+    }
+    sum
+}
+
+#[test]
+fn test_gcd() {
+    // u8, a > b
+    assert_eq!(gcd(10u8, 5u8), 5);
+    // u16, a < b
+    assert_eq!(gcd(14u16, 21u16), 7);
+    // u32, a = b
+    assert_eq!(gcd(100u32, 100u32), 100);
+    // u64, b = 1
+    assert_eq!(gcd(5u64, 1u64), 1);
+    // u128, a = 1
+    assert_eq!(gcd(1u128, 5u128), 1);
+    // usize, 互いに素
+    assert_eq!(gcd(17usize, 23usize), 1);
+}
+
+#[test]
+fn test_lcm() {
+    // u8, a > b
+    assert_eq!(lcm(10u8, 5u8), 10);
+    // u16, a < b
+    assert_eq!(lcm(5u16, 10u16), 10);
+    // u32, a = b
+    assert_eq!(lcm(10u32, 10u32), 10);
+    // u64, b = 1
+    assert_eq!(lcm(14u64, 1u64), 14);
+    // u128, a = 1
+    assert_eq!(lcm(1u128, 17u128), 17);
+    // usize, 互いに素
+    assert_eq!(lcm(17usize, 23usize), 17 * 23);
+}
+
+#[test]
+fn test_max() {
+    assert_eq!(max(5i32, 10i32), 10);
+    assert_eq!(max(10i32, 5i32), 10);
+    assert_eq!(max(5u32, 10u32), 10);
+    assert_eq!(max(5f32, 10f32), 10.0);
+    assert_eq!(max(5, -5), 5);
+    assert_eq!(max(5, 0), 5);
+}
+
+#[test]
+fn test_min() {
+    assert_eq!(min(5i32, 10i32), 5);
+    assert_eq!(min(10i32, 5i32), 5);
+    assert_eq!(min(5u32, 10u32), 5);
+    assert_eq!(min(5f32, 10f32), 5.0);
+    assert_eq!(min(5, -5), -5);
+    assert_eq!(min(5, 0), 0);
+}
+
+#[test]
+fn test_sum_digits() {
+    // 10進数
+    assert_eq!(sum_digits(12345, 10), 15);
+    // 2進数
+    assert_eq!(sum_digits(12345, 2), 6);
+    // 0
+    assert_eq!(sum_digits(0, 10), 0);
+    // 負の数
+    assert_eq!(sum_digits(-123, 10), 6);
+}
+
+#[test]
+#[should_panic]
+fn test_sum_digits_panic() {
+    sum_digits(123, 1);
+    sum_digits(123, 0);
+    sum_digits(123, -1);
+}
