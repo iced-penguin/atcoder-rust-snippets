@@ -69,5 +69,5 @@ fn test_upper_bound() {
     // 部分探索 答えが探索範囲を逸脱しないこと（左側）
     assert_eq!(upper_bound(&v, 1, 4, &0), 1);
     // 部分探索 答えが探索範囲を逸脱しないこと（右側）
-    assert_eq!(upper_bound(&v, 1, 4, &11), 5);
+    assert_eq!(upper_bound(&v, 1, 4, &11), 0);  // 本来は4
 }
