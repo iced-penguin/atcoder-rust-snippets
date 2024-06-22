@@ -36,7 +36,7 @@ where
 }
 
 #[snippet]
-// 最小値
+/// 最小値
 pub fn min<T>(a: T, b: T) -> T
 where
     T: std::cmp::PartialOrd,
@@ -46,6 +46,15 @@ where
     } else {
         b
     }
+}
+
+#[snippet]
+/// 絶対値
+pub fn abs<T>(a: T) -> T
+where
+    T: num::Signed,
+{
+    a.abs()
 }
 
 #[snippet]
@@ -145,6 +154,14 @@ fn test_min() {
     assert_eq!(min(5f32, 10f32), 5.0);
     assert_eq!(min(5, -5), -5);
     assert_eq!(min(5, 0), 0);
+}
+
+#[test]
+fn test_abs() {
+    assert_eq!(abs(3), 3);
+    assert_eq!(abs(-3), 3);
+    assert_eq!(abs(0), 0);
+    assert_eq!(abs(3.0), 3.0);
 }
 
 #[test]
