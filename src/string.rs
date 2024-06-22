@@ -1,24 +1,39 @@
 use cargo_snippet::snippet;
 
-#[snippet]
-/// ベクタの要素を連結して文字列にする
-pub fn join_to_string<T>(v: &Vec<T>, sep: &str) -> String
-where T: std::string::ToString
-{
-    v.iter()
-        .map(|t| t.to_string())
-        .collect::<Vec<String>>()
-        .join(sep)
+#[snippet("string iterator")]
+pub trait StringIterator {
+    /// イテレータの要素を連結して文字列にする
+    fn join_to_string(self, sep: &str) -> String
+    where
+        Self: Sized,
+        Self: Iterator,
+        Self::Item: std::string::ToString,
+    {
+        self.map(|x| x.to_string())
+            .collect::<Vec<String>>()
+            .join(sep)
+    }
 }
+
+#[snippet("string iterator")]
+impl<I: Iterator> StringIterator for I {}
 
 #[test]
 fn test_join_to_string() {
+    // ベクタ
     // 文字列
-    assert_eq!(join_to_string(&vec!["a", "b", "c"], " "), "a b c");
+    assert_eq!(vec!["a", "b", "c"].iter().join_to_string(" "), "a b c");
     // 数値
-    assert_eq!(join_to_string(&vec![0, 1, 2], "."), "0.1.2");
+    assert_eq!(vec![0, 1, 2].iter().join_to_string("."), "0.1.2");
     // 空ベクタ
-    assert_eq!(join_to_string(&Vec::<i32>::new(), ","), "");
+    assert_eq!(Vec::<i32>::new().iter().join_to_string(","), "");
     // 要素数1
-    assert_eq!(join_to_string(&vec!["a"], " "), "a");
+    assert_eq!(vec!["a"].iter().join_to_string(" "), "a");
+
+    // 配列
+    let arr = [0, 1, 2, 3];
+    assert_eq!(arr.iter().join_to_string(" "), "0 1 2 3");
+    // スライス
+    let slice = &arr[1..];
+    assert_eq!(slice.iter().join_to_string(" "), "1 2 3");
 }
