@@ -2,9 +2,9 @@ use cargo_snippet::snippet;
 
 #[snippet]
 // [l, r)の範囲でx以上の最初の要素のインデックスを返す. vはソート済みであること.
-pub fn lower_bound<T>(v: &Vec<T>, l: usize, r: usize, x: &T) -> usize 
+pub fn lower_bound<T>(v: &Vec<T>, l: usize, r: usize, x: &T) -> usize
 where
-    T: Ord
+    T: Ord,
 {
     let mut l = l;
     let mut r = r;
@@ -21,9 +21,9 @@ where
 
 #[snippet]
 // [l, r)の範囲でxより大きい最初の要素のインデックスを返す. vはソート済みであること.
-pub fn upper_bound<T>(v: &Vec<T>, l: usize, r: usize, x: &T) -> usize 
+pub fn upper_bound<T>(v: &Vec<T>, l: usize, r: usize, x: &T) -> usize
 where
-    T: Ord
+    T: Ord,
 {
     let mut l = l;
     let mut r = r;

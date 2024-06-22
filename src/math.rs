@@ -3,50 +3,63 @@ use cargo_snippet::snippet;
 #[snippet]
 /// a, b の最大公約数を求める（Euclidの互除法）
 pub fn gcd<T>(a: T, b: T) -> T
-where T: num::Unsigned + Copy
+where
+    T: num::Unsigned + Copy,
 {
-    if b == T::zero() { a } else { gcd(b, a % b) }
+    if b == T::zero() {
+        a
+    } else {
+        gcd(b, a % b)
+    }
 }
 
 #[snippet(include = "gcd")]
 /// a, b の最小公倍数を求める
-pub fn lcm<T>(a: T, b: T) -> T 
-where T: num::Unsigned + Copy
+pub fn lcm<T>(a: T, b: T) -> T
+where
+    T: num::Unsigned + Copy,
 {
     a * b / gcd(a, b)
 }
 
 #[snippet]
 /// 最大値
-pub fn max<T>(a: T, b: T) -> T 
-where T: std::cmp::PartialOrd
+pub fn max<T>(a: T, b: T) -> T
+where
+    T: std::cmp::PartialOrd,
 {
-    if a > b { a } else { b }
+    if a > b {
+        a
+    } else {
+        b
+    }
 }
 
 #[snippet]
 // 最小値
 pub fn min<T>(a: T, b: T) -> T
-where T: std::cmp::PartialOrd
+where
+    T: std::cmp::PartialOrd,
 {
-    if a < b { a } else { b }
+    if a < b {
+        a
+    } else {
+        b
+    }
 }
 
 #[snippet]
 /// baseを基数としてnの各桁の数の総和を求める
 pub fn sum_digits<T>(n: T, base: T) -> T
-where T: num::Signed + Copy + PartialOrd
+where
+    T: num::Signed + Copy + PartialOrd,
 {
     if base <= T::one() {
         panic!("base must be at least two")
     }
 
     let zero = T::zero();
-    let mut num = if n > zero {
-        n
-    } else {
-        -n
-    };
+    let mut num = if n > zero { n } else { -n };
     let mut sum = zero.clone();
 
     while num > zero {
@@ -58,8 +71,9 @@ where T: num::Signed + Copy + PartialOrd
 
 #[snippet]
 /// 基数base、指数expの冪乗をmで割った余りを求める（繰り返し二乗法）
-pub fn pow_mod<T>(base: T, exp: T, m: T) -> T 
-where T: num::PrimInt
+pub fn pow_mod<T>(base: T, exp: T, m: T) -> T
+where
+    T: num::PrimInt,
 {
     // 負の基数と指数をサポートしない
     if base < T::zero() {
@@ -166,7 +180,10 @@ fn test_pow_mod() {
     // 基数が大きい
     assert_eq!(pow_mod(1_000_000_000i64, 10i64, 1000000007i64), 282475249);
     // 指数が大きい
-    assert_eq!(pow_mod(10i64, 1_000_000_000i64, 1000000007i64), 142857001i64);
+    assert_eq!(
+        pow_mod(10i64, 1_000_000_000i64, 1000000007i64),
+        142857001i64
+    );
 }
 
 #[test]
