@@ -1,12 +1,12 @@
 use cargo_snippet::snippet;
 
-#[snippet]
+#[snippet("cum_sum")]
 /// 1次元ベクタの累積和を取る
 pub fn cum_sum<T>(x: &mut Vec<T>)
 where
     T: num::Num + Copy,
 {
-    if x.len() == 0 {
+    if x.is_empty() {
         return;
     }
     for i in 0..(x.len() - 1) {
@@ -14,22 +14,21 @@ where
     }
 }
 
-#[snippet]
+#[snippet(include = "cum_sum")]
+#[snippet("cum_sum_2d")]
 /// 2次元ベクタの累積和を取る
 pub fn cum_sum_2d<T>(x: &mut Vec<Vec<T>>)
 where
     T: num::Num + Copy,
 {
-    if x.len() == 0 || x[0].len() == 0 {
+    if x.is_empty() || x[0].is_empty() {
         return;
     }
     let h = x.len();
     let w = x[0].len();
     // 横方向に累積和を取る
-    for i in 0..h {
-        for j in 0..(w - 1) {
-            x[i][j + 1] = x[i][j + 1] + x[i][j];
-        }
+    for xx in x.iter_mut() {
+        cum_sum(xx);
     }
     // 縦方向に累積和を取る
     for i in 0..(h - 1) {
