@@ -6,18 +6,15 @@ pub fn lower_bound<T>(v: &Vec<T>, l: usize, r: usize, x: &T) -> usize
 where
     T: Ord,
 {
-    // TODO: l, r が不正な場合のハンドリング
-    let mut l = l;
-    let mut r = r;
-    while l < r {
-        let m = (l + r) / 2;
-        if &v[m] < x {
-            l = m + 1;
-        } else {
-            r = m;
-        }
+    if l >= r {
+        return l;
     }
-    l
+    let m = (l + r) / 2;
+    if &v[m] < x {
+        lower_bound(v, m + 1, r, x)
+    } else {
+        lower_bound(v, l, m, x)
+    }
 }
 
 #[snippet]
@@ -26,18 +23,15 @@ pub fn upper_bound<T>(v: &Vec<T>, l: usize, r: usize, x: &T) -> usize
 where
     T: Ord,
 {
-    // TODO: l, r が不正な場合のハンドリング
-    let mut l = l;
-    let mut r = r;
-    while l < r {
-        let m = (l + r) / 2;
-        if &v[m] <= x {
-            l = m + 1;
-        } else {
-            r = m;
-        }
+    if l >= r {
+        return l;
     }
-    l
+    let m = (l + r) / 2;
+    if &v[m] <= x {
+        lower_bound(v, m + 1, r, x)
+    } else {
+        lower_bound(v, l, m, x)
+    }
 }
 
 #[test]
