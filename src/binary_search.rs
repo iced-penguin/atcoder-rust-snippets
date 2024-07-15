@@ -28,9 +28,9 @@ where
     }
     let m = (l + r) / 2;
     if &v[m] <= x {
-        lower_bound(v, m + 1, r, x)
+        upper_bound(v, m + 1, r, x)
     } else {
-        lower_bound(v, l, m, x)
+        upper_bound(v, l, m, x)
     }
 }
 
@@ -41,6 +41,8 @@ fn test_lower_bound() {
     assert_eq!(lower_bound(&v, 0, v.len(), &5), 2);
     // xと一致する要素なし
     assert_eq!(lower_bound(&v, 0, v.len(), &4), 2);
+    // xが最大の要素と一致
+    assert_eq!(lower_bound(&v, 0, v.len(), &9), 4);
     // xが全要素より大きい
     assert_eq!(lower_bound(&v, 0, v.len(), &11), 5);
     // xが全要素より小さい
@@ -58,6 +60,8 @@ fn test_upper_bound() {
     assert_eq!(upper_bound(&v, 0, v.len(), &5), 3);
     // xと一致する要素なし
     assert_eq!(upper_bound(&v, 0, v.len(), &4), 2);
+    // xが最大の要素と一致
+    assert_eq!(upper_bound(&v, 0, v.len(), &9), 5);
     // xが全要素より大きい
     assert_eq!(upper_bound(&v, 0, v.len(), &11), 5);
     // xが全要素より小さい
