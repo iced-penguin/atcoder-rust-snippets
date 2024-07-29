@@ -48,20 +48,25 @@ impl UnionFind {
     }
 }
 
-#[test]
-fn test_union_find() {
-    let mut uf = UnionFind::new(3);
-    assert_eq!(uf.is_same(1, 2), false);
-    assert_eq!(uf.is_same(2, 3), false);
-    assert_eq!(uf.is_same(3, 1), false);
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    uf.unite(1, 2);
-    assert_eq!(uf.is_same(1, 2), true);
-    assert_eq!(uf.is_same(2, 3), false);
-    assert_eq!(uf.is_same(3, 1), false);
+    #[test]
+    fn test_union_find() {
+        let mut uf = UnionFind::new(3);
+        assert_eq!(uf.is_same(1, 2), false);
+        assert_eq!(uf.is_same(2, 3), false);
+        assert_eq!(uf.is_same(3, 1), false);
 
-    uf.unite(2, 3);
-    assert_eq!(uf.is_same(1, 2), true);
-    assert_eq!(uf.is_same(2, 3), true);
-    assert_eq!(uf.is_same(3, 1), true);
+        uf.unite(1, 2);
+        assert_eq!(uf.is_same(1, 2), true);
+        assert_eq!(uf.is_same(2, 3), false);
+        assert_eq!(uf.is_same(3, 1), false);
+
+        uf.unite(2, 3);
+        assert_eq!(uf.is_same(1, 2), true);
+        assert_eq!(uf.is_same(2, 3), true);
+        assert_eq!(uf.is_same(3, 1), true);
+    }
 }

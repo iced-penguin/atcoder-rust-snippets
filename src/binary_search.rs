@@ -34,40 +34,45 @@ where
     }
 }
 
-#[test]
-fn test_lower_bound() {
-    let v = vec![1, 3, 5, 7, 9];
-    // xと一致する要素あり
-    assert_eq!(lower_bound(&v, 0, v.len(), &5), 2);
-    // xと一致する要素なし
-    assert_eq!(lower_bound(&v, 0, v.len(), &4), 2);
-    // xが最大の要素と一致
-    assert_eq!(lower_bound(&v, 0, v.len(), &9), 4);
-    // xが全要素より大きい
-    assert_eq!(lower_bound(&v, 0, v.len(), &11), 5);
-    // xが全要素より小さい
-    assert_eq!(lower_bound(&v, 0, v.len(), &0), 0);
-    // 部分探索 答えが探索範囲を逸脱しないこと（左側）
-    assert_eq!(lower_bound(&v, 1, 4, &1), 1);
-    // 部分探索 答えが探索範囲を逸脱しないこと（右側）
-    assert_eq!(lower_bound(&v, 1, 4, &11), 4);
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-#[test]
-fn test_upper_bound() {
-    let v = vec![1, 3, 5, 7, 9];
-    // xと一致する要素あり
-    assert_eq!(upper_bound(&v, 0, v.len(), &5), 3);
-    // xと一致する要素なし
-    assert_eq!(upper_bound(&v, 0, v.len(), &4), 2);
-    // xが最大の要素と一致
-    assert_eq!(upper_bound(&v, 0, v.len(), &9), 5);
-    // xが全要素より大きい
-    assert_eq!(upper_bound(&v, 0, v.len(), &11), 5);
-    // xが全要素より小さい
-    assert_eq!(upper_bound(&v, 0, v.len(), &0), 0);
-    // 部分探索 答えが探索範囲を逸脱しないこと（左側）
-    assert_eq!(upper_bound(&v, 1, 4, &0), 1);
-    // 部分探索 答えが探索範囲を逸脱しないこと（右側）
-    assert_eq!(upper_bound(&v, 1, 4, &11), 4);
+    #[test]
+    fn test_lower_bound() {
+        let v = vec![1, 3, 5, 7, 9];
+        // xと一致する要素あり
+        assert_eq!(lower_bound(&v, 0, v.len(), &5), 2);
+        // xと一致する要素なし
+        assert_eq!(lower_bound(&v, 0, v.len(), &4), 2);
+        // xが最大の要素と一致
+        assert_eq!(lower_bound(&v, 0, v.len(), &9), 4);
+        // xが全要素より大きい
+        assert_eq!(lower_bound(&v, 0, v.len(), &11), 5);
+        // xが全要素より小さい
+        assert_eq!(lower_bound(&v, 0, v.len(), &0), 0);
+        // 部分探索 答えが探索範囲を逸脱しないこと（左側）
+        assert_eq!(lower_bound(&v, 1, 4, &1), 1);
+        // 部分探索 答えが探索範囲を逸脱しないこと（右側）
+        assert_eq!(lower_bound(&v, 1, 4, &11), 4);
+    }
+
+    #[test]
+    fn test_upper_bound() {
+        let v = vec![1, 3, 5, 7, 9];
+        // xと一致する要素あり
+        assert_eq!(upper_bound(&v, 0, v.len(), &5), 3);
+        // xと一致する要素なし
+        assert_eq!(upper_bound(&v, 0, v.len(), &4), 2);
+        // xが最大の要素と一致
+        assert_eq!(upper_bound(&v, 0, v.len(), &9), 5);
+        // xが全要素より大きい
+        assert_eq!(upper_bound(&v, 0, v.len(), &11), 5);
+        // xが全要素より小さい
+        assert_eq!(upper_bound(&v, 0, v.len(), &0), 0);
+        // 部分探索 答えが探索範囲を逸脱しないこと（左側）
+        assert_eq!(upper_bound(&v, 1, 4, &0), 1);
+        // 部分探索 答えが探索範囲を逸脱しないこと（右側）
+        assert_eq!(upper_bound(&v, 1, 4, &11), 4);
+    }
 }

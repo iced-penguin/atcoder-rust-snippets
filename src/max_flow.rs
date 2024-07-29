@@ -100,15 +100,20 @@ impl MaxFlow {
     }
 }
 
-#[test]
-fn test_max_flow() {
-    let mut mf = MaxFlow::new(6);
-    mf.add_edge(1, 2, 5);
-    mf.add_edge(1, 4, 4);
-    mf.add_edge(2, 3, 4);
-    mf.add_edge(2, 5, 7);
-    mf.add_edge(3, 6, 3);
-    mf.add_edge(4, 5, 3);
-    mf.add_edge(5, 6, 5);
-    assert_eq!(mf.solve(1, 6), 8);
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_max_flow() {
+        let mut mf = MaxFlow::new(6);
+        mf.add_edge(1, 2, 5);
+        mf.add_edge(1, 4, 4);
+        mf.add_edge(2, 3, 4);
+        mf.add_edge(2, 5, 7);
+        mf.add_edge(3, 6, 3);
+        mf.add_edge(4, 5, 3);
+        mf.add_edge(5, 6, 5);
+        assert_eq!(mf.solve(1, 6), 8);
+    }
 }

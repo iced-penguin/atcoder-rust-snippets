@@ -38,37 +38,42 @@ where
     }
 }
 
-#[test]
-fn test_cum_sum() {
-    let mut x1: Vec<i64> = vec![1, 2, 3, 4, 5];
-    cum_sum(&mut x1);
-    assert_eq!(x1, vec![1, 3, 6, 10, 15]);
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    let mut x2: Vec<usize> = vec![1];
-    cum_sum(&mut x2);
-    assert_eq!(x2, vec![1]);
+    #[test]
+    fn test_cum_sum() {
+        let mut x1: Vec<i64> = vec![1, 2, 3, 4, 5];
+        cum_sum(&mut x1);
+        assert_eq!(x1, vec![1, 3, 6, 10, 15]);
 
-    let mut x3: Vec<i32> = Vec::new();
-    cum_sum(&mut x3);
-    assert_eq!(x3, vec![]);
-}
+        let mut x2: Vec<usize> = vec![1];
+        cum_sum(&mut x2);
+        assert_eq!(x2, vec![1]);
 
-#[test]
-fn test_cum_sum_2d() {
-    let mut x1: Vec<Vec<i64>> = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
-    cum_sum_2d(&mut x1);
-    assert_eq!(x1, vec![vec![1, 3, 6], vec![5, 12, 21], vec![12, 27, 45],]);
+        let mut x3: Vec<i32> = Vec::new();
+        cum_sum(&mut x3);
+        assert_eq!(x3, vec![]);
+    }
 
-    let mut x2: Vec<Vec<usize>> = vec![vec![1, 2, 3]];
-    cum_sum_2d(&mut x2);
-    assert_eq!(x2, vec![vec![1, 3, 6]]);
+    #[test]
+    fn test_cum_sum_2d() {
+        let mut x1: Vec<Vec<i64>> = vec![vec![1, 2, 3], vec![4, 5, 6], vec![7, 8, 9]];
+        cum_sum_2d(&mut x1);
+        assert_eq!(x1, vec![vec![1, 3, 6], vec![5, 12, 21], vec![12, 27, 45],]);
 
-    let mut x3: Vec<Vec<i32>> = vec![vec![]];
-    cum_sum_2d(&mut x3);
-    assert_eq!(x3, vec![vec![]]);
+        let mut x2: Vec<Vec<usize>> = vec![vec![1, 2, 3]];
+        cum_sum_2d(&mut x2);
+        assert_eq!(x2, vec![vec![1, 3, 6]]);
 
-    let mut x4: Vec<Vec<i32>> = vec![];
-    cum_sum_2d(&mut x4);
-    let expected: Vec<Vec<i32>> = vec![];
-    assert_eq!(x4, expected);
+        let mut x3: Vec<Vec<i32>> = vec![vec![]];
+        cum_sum_2d(&mut x3);
+        assert_eq!(x3, vec![vec![]]);
+
+        let mut x4: Vec<Vec<i32>> = vec![];
+        cum_sum_2d(&mut x4);
+        let expected: Vec<Vec<i32>> = vec![];
+        assert_eq!(x4, expected);
+    }
 }
