@@ -1,7 +1,7 @@
 use cargo_snippet::snippet;
 
-#[snippet("string iterator")]
-pub trait StringIterator {
+#[snippet("JoinToString")]
+pub trait JoinToString {
     /// イテレータの要素を連結して文字列にする
     fn join_to_string(self, sep: &str) -> String
     where
@@ -15,8 +15,8 @@ pub trait StringIterator {
     }
 }
 
-#[snippet("string iterator")]
-impl<I: Iterator> StringIterator for I {}
+#[snippet("JoinToString")]
+impl<I: Iterator> JoinToString for I {}
 
 #[test]
 fn test_join_to_string() {
