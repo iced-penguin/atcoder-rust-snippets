@@ -25,23 +25,32 @@ mod tests {
 
     #[test]
     fn test_next_permutations() {
-        // 元ベクタ, 次があるか, 次のベクタ
-        let cases = vec![
-            // 全ての順列が辞書順に列挙されること
+        // 全ての順列が辞書順に列挙されること
+        let case1 = vec![
             (vec![1, 2, 3], true, vec![1, 3, 2]),
             (vec![1, 3, 2], true, vec![2, 1, 3]),
             (vec![2, 1, 3], true, vec![2, 3, 1]),
             (vec![2, 3, 1], true, vec![3, 1, 2]),
             (vec![3, 1, 2], true, vec![3, 2, 1]),
             (vec![3, 2, 1], false, vec![3, 2, 1]),
-            // 要素が1つだけの場合
-            (vec![1], false, vec![1]),
-            // 空の場合
-            (vec![], false, vec![]),
         ];
-        for (mut src, has_next, dst) in cases {
+        for (mut src, has_next, dst) in case1 {
             assert_eq!(next_permutaion(&mut src), has_next);
             assert_eq!(src, dst);
         }
+        // 重複する要素がある場合、重複した順列を除いて列挙されること
+        let case2 = vec![
+            (vec!['a', 'a', 'b'], true, vec!['a', 'b', 'a']),
+            (vec!['a', 'b', 'a'], true, vec!['b', 'a', 'a']),
+            (vec!['b', 'a', 'a'], false, vec!['b', 'a', 'a']),
+        ];
+        for (mut src, has_next, dst) in case2 {
+            assert_eq!(next_permutaion(&mut src), has_next);
+            assert_eq!(src, dst);
+        }
+        // 要素が1つだけの場合
+        assert_eq!(next_permutaion(&mut vec![1]), false);
+        // 空の場合
+        assert_eq!(next_permutaion(&mut Vec::<i32>::new()), false);
     }
 }
