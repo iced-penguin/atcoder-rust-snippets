@@ -1,4 +1,5 @@
 pub mod binary_search;
+pub mod collection;
 pub mod cumulative_sum;
 pub mod enumerate;
 pub mod io;
