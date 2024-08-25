@@ -18,6 +18,58 @@ pub trait JoinToString {
 #[snippet("JoinToString")]
 impl<I: Iterator> JoinToString for I {}
 
+#[snippet("Parenthesis")]
+pub struct Parenthesis {
+    left_sign: char,
+    right_sign: char,
+    data: Vec<i8>,
+}
+
+#[snippet("Parenthesis")]
+impl Parenthesis {
+    // TODO 必要が出てきたらジェネリクスにする
+    pub fn new(left_sign: char, right_sign: char, data: &Vec<char>) -> Self {
+        let d: Vec<i8> = data
+            .iter()
+            .map(|&x| if x == left_sign { 1 } else { -1 })
+            .collect();
+        Self {
+            left_sign,
+            right_sign,
+            data: d,
+        }
+    }
+
+    /// 正しい括弧列かどうか
+    pub fn is_valid(&self) -> bool {
+        // 正しい括弧列は以下を満たす
+        // 1. 左から括弧の数を数えたとき、常に左括弧の数の和が右括弧の数の和以上であること
+        // 2. 左括弧と右括弧の数が等しいこと
+        let mut sum = 0;
+        for d in self.data.iter() {
+            sum += d;
+            if sum < 0 {
+                return false;
+            }
+        }
+        sum == 0
+    }
+
+    // TODO 文字列化する時に使用する括弧記号を与えられるようにする
+    pub fn string(&self) -> String {
+        self.data
+            .iter()
+            .map(|&x| {
+                if x == 1 {
+                    self.left_sign
+                } else {
+                    self.right_sign
+                }
+            })
+            .collect()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -40,5 +92,26 @@ mod tests {
         // スライス
         let slice = &arr[1..];
         assert_eq!(slice.iter().join_to_string(" "), "1 2 3");
+    }
+
+    #[test]
+    fn test_parenthesis() {
+        let cases = vec![
+            // 空文字列
+            ("", true),
+            // 正しい括弧列
+            ("(()())(())", true),
+            // 正しくない括弧列 常に左括弧の数の和が右括弧の数の和以上であることを満たさない
+            (")))()(((", false),
+            // 正しくない括弧列　左括弧と右括弧の数が等しいことを満たさない
+            ("(()())(()", false),
+        ];
+        let lsign = '(';
+        let rsign = ')';
+        for (input, expected) in cases {
+            let data: Vec<char> = input.chars().collect();
+            let p = Parenthesis::new(lsign, rsign, &data);
+            assert_eq!(p.is_valid(), expected);
+        }
     }
 }
