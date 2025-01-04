@@ -1,9 +1,3 @@
 #!/bin/bash
 
-echo "pre-push: cargo test"
-if ! cargo test; then
-    echo "Tests failed. Push aborted."
-    exit 1
-fi
-
-exit 0
+cargo test
